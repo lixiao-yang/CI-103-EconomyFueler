@@ -1,0 +1,83 @@
+Django
+
+1.MTV
+
+   
+   View: Accept the request.  Processe the data(function)   第二张
+   Temple: Return html                                         第二张
+   Model: interact with the database                    第二张
+  【img Relationship】                                          第二张
+         
+    
+    View in django                                  第三张
+              --img 【View1】
+              --img  【url】  
+              --img  【result1】
+    Template in django                          第四张
+              --img 【Template】
+              --img 【View2】
+              --img 【url】
+              --img 【result2】
+    Model in Django                               第五张
+                -- img【model1,model2】
+
+   ORM in Django                  第六张
+  Object Relational Mapping:             
+   Object relational mapping (ORM, or O / RM, or O / R mapping) is a kind of programming technology, which is used to realize the data conversion between different types of systems in object-oriented programming language. In effect, it creates a "virtual object database" that can be used in programming language. Nowadays, there are many free and paid ORM products, and some programmers prefer to create their own ORM tools.【整段内容打个×】             第七张
+
+  We can say it just does this thing.          第八张   
+        conn = pymysql.connect(host='127.0.0.1', port=3306, user='root', passwd='a568178499', db='babys',
+                           charset='utf8')
+        cursor = conn.cursor(cursor=pymysql.cursors.DictCursor)
+        cursor.execute('select id,title from class')【这一行红色】                ----------->   obj = models.class.objects.all()
+        result = cursor.fetchone()
+        cursor.close()
+        conn.close()
+       
+
+       Transform the python statement into sql statement and connect the database. 第八张   【加重】
+
+
+
+
+
+
+2.template language
+   get the data from back end
+   inherit layout
+   --img【layout】
+   --img【childpage】
+3.reload
+   Django can reload the server if you change any scripts or templates
+4.Admin
+   a default background management system in the django 
+   - img 【create】
+   - img 【load】
+   - img 【background】
+
+
+
+
+
+
+
+
+构思一下：
+选择地区和行业(调整数据表)确定 -----> POST 获取(提交省份行业数据).ajax 提交su
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
