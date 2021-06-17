@@ -1,0 +1,103 @@
+
+{% extends 'layout.html' %}
+{% block xx %}
+
+<div style="margin-bottom: 50px">
+    <table class="table" style="width:1260px;margin: 0 auto;">
+        <tr style="border:1px solid #dddddd;">
+            <td colspan="4" style="vertical-align: middle"><b style="font-size: 18px">访问量指标</b></td>
+            <td><button type="button" class="btn btn-default" style="float: right;size:18px">2021-5-14</button></td>
+        </tr>
+        <tr>
+            <td  style="width: 20%;height: 120px;border:1px solid #dddddd;text-align: center;vertical-align: middle!important;">PV<br><b style="font-size: 35px">100</b></td>
+            <td  style="width: 20%;height: 120px;border:1px solid #dddddd;text-align: center;vertical-align: middle!important;">UV<br><b style="font-size: 35px">200</b></td>
+            <td  style="width: 20%;height: 120px;border:1px solid #dddddd;text-align: center;vertical-align: middle!important;">IP<br><b style="font-size: 35px">300</b></td>
+            <td  style="width: 20%;height: 120px;border:1px solid #dddddd;text-align: center;vertical-align: middle!important;">访客<br><b style="font-size: 35px">400</b></td>
+            <td  style="width: 20%;height: 120px;border:1px solid #dddddd;text-align: center;vertical-align: middle!important">内容总浏览量<br><b style="font-size: 35px">500</b></td>
+        </tr>
+    </table>
+</div>
+<div style="margin-bottom: 50px">
+    <table class="table" style="width:1260px;margin: 0 auto;">
+        <tr style="border:1px solid #dddddd;">
+            <td style="vertical-align: middle"><b style="font-size: 18px">每日访问量趋势曲线</b></td>
+            <td><button type="button" class="btn btn-default" style="float: right;size:18px">2021-5-14至2021-5-14</button></td>
+        </tr>
+        <tr>
+            <td colspan="2" style="border: 1px solid #dddddd"><div id="main" style="width: 100%;height: 300px"></div></td>
+        </tr>
+    </table>
+</div>
+
+{% endblock %}
+{% block js %}
+    <script src="/static/js/echarts.min.js"></script>
+    <script>
+        var dom = document.getElementById("main");
+        var myChart = echarts.init(dom);
+        var option;
+        option = {
+            title: {
+                text: ''
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: ['PV', 'UV', 'IP', '访客', '内容总浏览量']
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: ['0', '3', '6', '9', '12', '15', '18', '21', '']
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [
+                {
+                    name: 'PV',
+                    type: 'line',
+                    stack: 'PV总量',
+                    data: [1200, 132, 101, 134, 90, 230, 210, 230]
+                },
+                {
+                    name: 'UV',
+                    type: 'line',
+                    stack: 'UV总量',
+                    data: [220, 182, 191, 234, 290, 330, 310, 990]
+                },
+                {
+                    name: 'IP',
+                    type: 'line',
+                    stack: 'IP总量',
+                    data: [150, 232, 201, 154, 190, 330, 410, 100]
+                },
+                {
+                    name: '访客',
+                    type: 'line',
+                    stack: '访客总量',
+                    data: [320, 332, 301, 334, 390, 330, 320, 1290]
+                },
+                {
+                    name: '内容总浏览量',
+                    type: 'line',
+                    stack: '内容总量',
+                    data: [820, 932, 901, 934, 1290, 1330, 1320, 990]
+                }
+            ]
+        };
+        myChart.setOption(option);
+    </script>
+{% endblock %}

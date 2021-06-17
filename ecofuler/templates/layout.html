@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/static/plugins/bootstrap-3.4.1-dist/bootstrap-3.4.1-dist/css/bootstrap.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+    <script src="/static/plugins/bootstrap-3.4.1-dist/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
+    <script src="/static/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="/static/css/common.css">
+    {% block css %}{% endblock %}
+</head>
+<body>
+<div class="pg-header">
+    <div class="logo left">EcoFuler后台管理</div>
+    <div class="right avatar" style="position: relative">
+        <img style="width:50px;height: 40px;" src="/static/images/head.jfif">
+        <div class="user-info">
+            <a>个人资料</a>
+            <a>注销</a>
+        </div>
+    </div>
+    <div class="rmenus right">
+        <a><i class="fa fa-commenting-o" aria-hidden="true"></i>消息</a>
+        <a><i class="fa fa-envelope-o" aria-hidden="true"></i>邮件</a>
+    </div>
+
+</div>
+<div class="pg-body">
+    <div class="menus">
+        <a href="/background_index/">首页</a>
+        <a href="/background_index/user_manage/">用户管理</a>
+        <a href="/background_index/database_manage/">数据库管理</a>
+    </div>
+    <div class="content">
+        <ol class="breadcrumb">
+        <li><a href="/background_index/">首页</a></li>
+        {% block li %}
+
+        {% endblock %}
+        </ol>
+        {% block xx %}
+
+        {% endblock %}
+
+    </div>
+</div>
+{% block js %}{% endblock %}
+</body>
+</html>

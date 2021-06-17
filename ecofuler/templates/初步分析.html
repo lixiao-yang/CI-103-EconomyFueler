@@ -1,0 +1,260 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>选择地区及产业</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+</head>
+
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <img src="/static/新建文件夹/logo.png" width="100px" alt="logo">
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                    {% if request.session.is_login %}
+                    <li><a href="#">当前在线：{{ request.session.user_name }}</a></li>
+                    <li><a href="/logout/">登出</a></li>
+                    {% else %}
+                    <li><a href="/register/"><span class="glyphicon glyphicon-user"></span>注册</a></li> <!--链接到注册.html-->
+                    <li><a href="/login/"><span class="glyphicon glyphicon-log-in"></span>登录</a></li> <!--链接到登录.html-->
+                    <li><a href="/联系我们/"><span class="glyphicon glyphicon-envelope"></span>联系我们</a></li> <!--链接到联系我们.html-->
+                    {% endif %}
+                </ul>
+        </div>
+    </nav>
+    <br /><br /><br />
+    <ol class="breadcrumb">
+        <li><a href="#">首页</a></li>
+        <!--链接到首页.html-->
+        <li><a href="#">功能选择</a></li>
+        <!--链接到功能选择.html-->
+        <li><a href="#">初步分析</a></li>
+        <!--链接到初步分析.html-->
+        <li class="active">选择地区,产业类型及规模并上传财务文件</li>
+    </ol>
+    </br></br></br></br>
+    <div class="jumbotron" align="center">
+        <h3>请选择您的公司所处的地区，产业类型及规模</h3>
+        <form class="form-inline" action="/初步分析1/初步分析2/result/" method="POST" id="form">
+
+            <select name="industry" id="industry">
+                <option value="0">请选择产业类型</option>
+                <option value="房地产">房地产</option>
+                <option value="能源产业">能源产业</option>
+                <option value="工业企业">工业企业（制造业）</option>
+                <option value="高技术产业">高技术产业</option>
+                <option value="第三产业">第三产业</option>
+            </select>
+
+            <select name="detailed_industry" id="detailed-industry">
+                <option value="0">请选择工业企业（制造业）下的子行业</option>
+                <option value="非工业企业（制造业）">非工业企业（制造业）</option>
+                <option value="农副食品加工业">农副食品加工业</option>
+                <option value="食品制造业">食品制造业</option>
+                <option value="烟草制品业">烟草制品业</option>
+                <option value="纺织业">纺织业</option>、
+                <option value="家具制造业">家具制造业</option>
+                <option value="造纸和纸制品业">造纸和纸制品业</option>
+                <option value="印刷和记录媒介复制业">印刷和记录媒介复制业</option>
+                <option value="文教、工美、体育和娱乐用品制造业">文教、工美、体育和娱乐用品制造业</option>
+                <option value="石油加工、炼焦和核燃料加工业">石油加工、炼焦和核燃料加工业</option>
+                <option value="化学原料和化学制品制造业">化学原料和化学制品制造业</option>
+                <option value="医药制造业">医药制造业</option>
+                <option value="化学纤维制造业">化学纤维制造业</option>
+                <option value="橡胶和塑料制品业">橡胶和塑料制品业</option>
+                <option value="非金属矿物制造业">非金属矿物制造业</option>
+                <option value="黑色金属冶炼和压延加工业">黑色金属冶炼和压延加工业</option>
+                <option value="有色金属冶炼和压延加工业">有色金属冶炼和压延加工业</option>
+                <option value="金属制品业">金属制品业</option>
+                <option value="通用设备制造业">通用设备制造业</option>
+                <option value="专用设备制造业">专用设备制造业</option>
+                <option value="汽车制造业">汽车制造业</option>
+                <option value="铁路、船舶、航空航天和其他运输设备制造业">铁路、船舶、航空航天和其他运输设备制造业</option>
+                <option value="电气机械和器材制造业">电气机械和器材制造业</option>
+                <option value="计算机、通信和其他电子设备制造业">计算机、通信和其他电子设备制造业</option>
+                <option value="仪器仪表制造业">仪器仪表制造业</option>
+                <option value="其他制造业">其他制造业</option>
+                <option value="废弃资源综合利用业">废弃资源综合利用业</option>
+                <option value="金属制品、机械和设备修理业">金属制品、机械和设备修理业</option>
+            </select>
+
+            <select name="scale" id="scale">
+                <option value="0">请选择产业规模</option>
+                <option value="规模以上">规模以上（主营业务收入2000万元以上）</option>
+                <option value="规模以下" disabled="disabled">规模以下</option>
+            </select>
+
+
+            <select name="region" id="region">
+                <option value="0">请选择地区</option>
+                <option value="北京市">北京市</option>
+                <option value="浙江省">浙江省</option>
+                <option value="天津市">天津市</option>
+                <option value="安徽省">安徽省</option>
+                <option value="上海市">上海市</option>
+                <option value="福建省">福建省</option>
+                <option value="重庆市">重庆市</option>
+                <option value="江西省">江西省</option>
+                <option value="山东省">山东省</option>
+                <option value="河南省">河南省</option>
+                <option value="湖北省">湖北省</option>
+                <option value="湖南省">湖南省</option>
+                <option value="广东省">广东省</option>
+                <option value="海南省">海南省</option>
+                <option value="山西省">山西省</option>
+                <option value="青海省">青海省</option>
+                <option value="江苏省">江苏省</option>
+                <option value="辽宁省">辽宁省</option>
+                <option value="吉林省">吉林省</option>
+                <option value="台湾省">台湾省</option>
+                <option value="河北省">河北省</option>
+                <option value="贵州省">贵州省</option>
+                <option value="四川省">四川省</option>
+                <option value="云南省">云南省</option>
+                <option value="陕西省">陕西省</option>
+                <option value="甘肃省">甘肃省</option>
+                <option value="黑龙江省">黑龙江省</option>
+                <option value="香港特别行政区">香港特别行政区</option>
+                <option value="澳门特别行政区">澳门特别行政区</option>
+                <option value="广西壮族自治区">广西壮族自治区</option>
+                <option value="宁夏回族自治区">宁夏回族自治区</option>
+                <option value="新疆维吾尔自治区">新疆维吾尔自治区</option>
+                <option value="内蒙古自治区">内蒙古自治区</option>
+                <option value="西藏自治区">西藏自治区</option>
+            </select>
+        <span id="industry-err"></span>
+            </br></br>
+        <h3>请上传您的公司<strong>同一年</strong>的财务数据文件</h3>
+        <br /><br /><br />
+
+            <div class="form-group" align="center">
+                <label for="fileField1">请上传资产负债表:</label>
+                <input type="file" name="fuzhai" id="fileField1"
+                    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                    align="center" class="form-control-static">
+                <span style="position: relative;margin-top:10px" id="errmsg1"></span>
+
+            </div>
+            <br />
+            <div class="form-group" align="center">
+                <label for="fileField2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请上传利润表:</label>
+                <input type="file" name="lirun" id="fileField2"
+                    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                    align="center" class="form-control-static">
+                <span style="position: relative;margin-top:10px" id="errmsg2"></span>
+            </div>
+            <br />
+            <div class="form-group" align="center">
+                <label for="fileField3">请上传现金流量表:</label>
+                <input type="file" name="liuliang" id="fileField3"
+                    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                    align="center" class="form-control-static">
+                <span style="position: relative;margin-top:10px" id="errmsg3"></span>
+            </div>
+
+        </form>
+        <br /><br /><br />
+        <div id="contenterr"></div>
+        <a href="新建文件夹/资产负债表模板.xlsx">点击下载资产负债表模板</a> <a href="新建文件夹/利润表模板.xlsx">点击下载利润表模板</a> <a
+            href="新建文件夹/现金流量表模板.xlsx">点击下载现金流量表模板</a>
+
+        <p><a class="btn btn-primary btn-lg" onclick="dataSubmit()" role="button">生成初步分析结果</a>
+            <!--链接到初步分析结果.html-->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a class="btn btn-primary btn-lg" href="#" role="button">上一步</a>
+        </p>
+        <!--链接到功能选择.html-->
+    </div>
+    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+    <div align="center">
+        <footer>
+            <p>© 2021 Economic Fueler Project Team</p>
+        </footer>
+    </div>
+</body>
+<script>
+      function dataSubmit() {
+            document.getElementById("errmsg1").innerHTML = ""
+            document.getElementById("errmsg2").innerHTML = ""
+            document.getElementById("errmsg3").innerHTML = ""
+            document.getElementById("contenterr").innerHTML = ""
+            document.getElementById("industry-err").innerHTML = ""
+            var fuzhai = document.getElementById("fileField1").value;
+            var lirun = document.getElementById("fileField2").value;
+            var liuliang = document.getElementById("fileField3").value;
+            var industry = document.getElementById("industry").value;
+            var detailed_indusry = document.getElementById("detailed-industry").value;
+            var scale = document.getElementById("scale").value
+            var region = document.getElementById("region").value
+            console.log(region)
+            if (!fuzhai || !lirun || !liuliang ||industry==0||detailed_indusry==0||scale==0||region==0) {
+                if (industry==0||detailed_indusry==0||scale==0||region==0) {
+                    $("#industry-err").text("存在未填信息")
+                }
+                if (!fuzhai) {
+                    $("#errmsg1").text("格式错误")
+                }
+                if (!lirun) {
+                    $("#errmsg2").text("格式错误")
+                }
+                if (!liuliang) {
+                    $("#errmsg3").text("格式错误")
+                }
+                } else {
+                    console.log(document.getElementById('fileField1').files[0])
+                    fuzhai = document.getElementById("fileField1").files[0].name
+                    lirun = document.getElementById("fileField2").files[0].name
+                    liuliang = document.getElementById("fileField3").files[0].name
+                    console.log(fuzhai)
+                    $.ajax({
+                        url: "/ini_errtest/",
+                        type: "POST",
+                        data: {"fuzhai": fuzhai, "lirun": lirun, "liuliang": liuliang},
+                        success: function (args) {
+                            args = JSON.parse(args);
+                            if (!args[0].流动负债合计期末余额 || !args[1].销售费用本期金额 || !args[2].支付的各种税费本期金额) {
+                                if (!args[0].流动负债合计期末余额) {
+                                    $("#errmsg1").text("格式错误")
+                                }
+                                if (!args[1].销售费用本期金额) {
+                                    $("#errmsg2").text("格式错误")
+                                }
+                                if (!args[2].支付的各种税费本期金额) {
+                                    $("#errmsg3").text("格式错误")
+                                }
+                            } else {
+                                $.ajax({
+                                    url: "/ini_contenterr/",
+                                    type: "POST",
+                                    data: {"fuzhai": fuzhai, "lirun": lirun, "liuliang": liuliang},
+                                    success: function (data) {
+                                        data = JSON.parse(data)
+                                        if (data.status) {
+                                            $("#contenterr").text("文件中存在的错误信息： " + data.msg)
+                                        } else {
+                                            document.getElementById("form").submit()
+
+                                        }
+                                    }
+                                })
+
+                            }
+
+                        }
+                    })
+                }
+
+        }
+
+
+
+
+
+</script>
+</html>

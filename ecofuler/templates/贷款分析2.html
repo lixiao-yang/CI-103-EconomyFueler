@@ -1,0 +1,289 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>上传财务数据文件</title>
+        <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+        <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <img src="新建文件夹/logo.png" width="100px" alt="logo">
+                </div>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#"><span class="glyphicon glyphicon-user"></span>注册</a></li> <!--链接到注册.html-->
+                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span>登录</a></li> <!--链接到登录.html-->
+                    <li><a href="#"><span class="glyphicon glyphicon-envelope"></span>联系我们</a></li> <!--链接到联系我们.html-->
+                </ul>
+            </div>
+        </nav>
+        <br/><br/><br/>
+        <ol class="breadcrumb">
+            <li><a href="#">首页</a></li> <!--链接到首页.html-->
+            <li><a href="#">贷款分析</a></li> <!--链接到功能选择.html-->
+            <li><a href="#">选择地区及产业</a></li> <!--链接到贷款分析1.html-->
+            <li class="active">上传财务数据文件</li> 
+        </ol>
+        <br/><br/><br/><br/>
+        <div class="jumbotron" align="center">
+            <h3>请上传您的公司<strong>连续三年</strong>的财务数据文件</h3>
+            <br/><br/><br/>
+            <form class="form-inline" action="/贷款分析1/贷款分析2/loan_result/" method="POST" id="form">
+                <div class="form-group" align="center" style="margin-bottom: 20px">
+                    <label for="fileField1">请上传资产负债表:</label>
+                    <select name="year">
+                        <option value="0">请选择年份</option>
+                        <option value="2016">2016</option>
+                        <option value="2017">2017</option>
+                        <option value="2018">2018</option>
+                        <option value="2019">2019</option>
+                        <option value="2020">2020</option>
+                    </select>
+                    <input type="file" name="formdata1" id="fileField1" style="width: 180px" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" align="center" class="form-control-static">
+                    <span id="errmsg1"></span>
+                    <select name="year">
+                        <option value="0">请选择年份</option>
+                        <option value="2016">2016</option>
+                        <option value="2017">2017</option>
+                        <option value="2018">2018</option>
+                        <option value="2019">2019</option>
+                        <option value="2020">2020</option>
+                    </select>
+                    <input type="file" name="formdata2" id="fileField2" style="width: 180px" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" align="center" class="form-control-static">
+                    <span id="errmsg2"></span>
+                    <select name="year">
+                        <option value="0">请选择年份</option>
+                        <option value="2016">2016</option>
+                        <option value="2017">2017</option>
+                        <option value="2018">2018</option>
+                        <option value="2019">2019</option>
+                        <option value="2020">2020</option>
+                    </select>
+                    <input type="file" name="formdata3" style="width: 180px" id="fileField3" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" align="center" class="form-control-static">
+                    <span id="errmsg3"></span>
+                </div>
+
+            <br/>
+
+                <div class="form-group" align="center" style="margin-bottom: 20px">
+                    <label for="fileField2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请上传利润表:</label>
+                    <select name="year">
+                        <option value="0">请选择年份</option>
+                        <option value="2016">2016</option>
+                        <option value="2017">2017</option>
+                        <option value="2018">2018</option>
+                        <option value="2019">2019</option>
+                        <option value="2020">2020</option>
+                    </select>
+                    <input type="file" name="formdata1" id="fileField4" style="width: 180px" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" align="center" class="form-control-static">
+                    <span id="errmsg4"></span>
+                    <select name="year">
+                        <option value="0">请选择年份</option>
+                        <option value="2016">2016</option>
+                        <option value="2017">2017</option>
+                        <option value="2018">2018</option>
+                        <option value="2019">2019</option>
+                        <option value="2020">2020</option>
+                    </select>
+                    <input type="file" name="formdata2" id="fileField5" style="width: 180px" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" align="center" class="form-control-static">
+                    <span id="errmsg5"></span>
+                    <select name="year">
+                        <option value="0">请选择年份</option>
+                        <option value="2016">2016</option>
+                        <option value="2017">2017</option>
+                        <option value="2018">2018</option>
+                        <option value="2019">2019</option>
+                        <option value="2020">2020</option>
+                    </select>
+                    <input type="file" name="formdata3" id="fileField6" style="width: 180px" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" align="center" class="form-control-static">
+                    <span id="errmsg6"></span>
+                </div>
+
+            <br/>
+
+                <div class="form-group" align="center" style="margin-bottom: 20px">
+                    <label for="fileField3">请上传现金流量表:</label>
+                    <select name="year">
+                        <option value="0">请选择年份</option>
+                        <option value="2016">2016</option>
+                        <option value="2017">2017</option>
+                        <option value="2018">2018</option>
+                        <option value="2019">2019</option>
+                        <option value="2020">2020</option>
+                    </select>
+                    <input type="file" name="formdata1" id="fileField7" style="width: 180px" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" align="center" class="form-control-static">
+                    <span id="errmsg7"></span>
+                    <select name="year">
+                        <option value="0">请选择年份</option>
+                        <option value="2016">2016</option>
+                        <option value="2017">2017</option>
+                        <option value="2018">2018</option>
+                        <option value="2019">2019</option>
+                        <option value="2020">2020</option>
+                    </select>
+                    <input type="file" name="formdata2" id="fileField8" style="width: 180px" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" align="center" class="form-control-static">
+                    <span id="errmsg8"></span>
+                    <select name="year">
+                        <option value="0">请选择年份</option>
+                        <option value="2016">2016</option>
+                        <option value="2017">2017</option>
+                        <option value="2018">2018</option>
+                        <option value="2019">2019</option>
+                        <option value="2020">2020</option>
+                    </select>
+                    <input type="file" name="formdata3" id="fileField9" style="width: 180px" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" align="center" class="form-control-static">
+                    <span id="errmsg9"></span>
+                </div>
+            </form>
+            <div style="clear: both">
+                <div style="clear: both;text-align: center" id="contenterr1"></div>
+                <br>
+                <div style="clear: both;text-align: center" id="contenterr2"></div>
+                <br>
+                <div style="clear: both;text-align: center" id="contenterr3"></div>
+            </div>
+            <br/><br/><br/>
+            <a href="新建文件夹/资产负债表模板.xlsx">点击下载资产负债表模板</a>  <a href="新建文件夹/利润表模板.xlsx">点击下载利润表模板</a>  <a href="新建文件夹/现金流量表模板.xlsx">点击下载现金流量表模板</a>
+            <br/><br/><br/><br/>
+            <button class="btn btn-primary btn-lg" onclick="dataSubmit()">提交</button> <!--链接到贷款分析结果.html-->
+
+        </div>
+
+        <br/><br/><br/><br/>
+        <div align="center">
+            <footer>
+                <p>© 2021 Economic Fueler Project Team</p>
+            </footer>
+        </div>
+        <script src="/static/jquery-3.6.0.min.js"></script>
+        <script>
+            function dataSubmit(){
+                document.getElementById("errmsg1").innerHTML=""
+                document.getElementById("errmsg2").innerHTML=""
+                document.getElementById("errmsg3").innerHTML=""
+                document.getElementById("errmsg4").innerHTML=""
+                document.getElementById("errmsg5").innerHTML=""
+                document.getElementById("errmsg6").innerHTML=""
+                document.getElementById("errmsg7").innerHTML=""
+                document.getElementById("errmsg8").innerHTML=""
+                document.getElementById("errmsg9").innerHTML=""
+                document.getElementById("contenterr1").innerHTML=""
+                document.getElementById("contenterr2").innerHTML=""
+                document.getElementById("contenterr3").innerHTML=""
+                document.getElementById("industry-err").innerHTML = ""
+                var fuzhai1 = document.getElementById("fileField1").value;
+                var fuzhai2 = document.getElementById("fileField2").value;
+                var fuzhai3 = document.getElementById("fileField3").value;
+                var lirun1 = document.getElementById("fileField4").value;
+                var lirun2 = document.getElementById("fileField5").value;
+                var lirun3 = document.getElementById("fileField6").value;
+                var liuliang1 = document.getElementById("fileField7").value;
+                var liuliang2 = document.getElementById("fileField8").value;
+                var liuliang3 = document.getElementById("fileField9").value;
+                if(!fuzhai1||!fuzhai2||!fuzhai3||!lirun1||!lirun2||!lirun3||!liuliang1||!liuliang2||!liuliang3){
+                    if(!fuzhai1){
+                        $("#errmsg1").text("格式错误")
+                    }
+                    if(!fuzhai2){
+                        $("#errmsg2").text("格式错误")
+                    }
+                    if(!fuzhai3){
+                        $("#errmsg3").text("格式错误")
+                    }
+                    if(!lirun1){
+                        $("#errmsg4").text("格式错误")
+                    }
+                    if(!lirun2){
+                        $("#errmsg5").text("格式错误")
+                    }
+                    if(!lirun3){
+                        $("#errmsg6").text("格式错误")
+                    }
+                    if(!liuliang1){
+                        $("#errmsg7").text("格式错误")
+                    }
+                    if(!liuliang2){
+                        $("#errmsg8").text("格式错误")
+                    }
+                    if(!liuliang3){
+                        $("#errmsg9").text("格式错误")
+                    }
+                }else {
+                    fuzhai1 = document.getElementById("fileField1").files[0].name
+                    fuzhai2 = document.getElementById("fileField2").files[0].name
+                    fuzhai3 = document.getElementById("fileField3").files[0].name
+                    lirun1 = document.getElementById("fileField4").files[0].name
+                    lirun2 = document.getElementById("fileField5").files[0].name
+                    lirun3 = document.getElementById("fileField6").files[0].name
+                    liuliang1 = document.getElementById("fileField7").files[0].name
+                    liuliang2 = document.getElementById("fileField8").files[0].name
+                    liuliang3 = document.getElementById("fileField9").files[0].name
+                    console.log(fuzhai1)
+                    $.ajax({
+                        url: "/loan_errtest/",
+                        type: "POST",
+                        data: {"fuzhai1": fuzhai1,"fuzhai2":fuzhai2,"fuzhai3":fuzhai3, "lirun1": lirun1, "lirun2": lirun2,"lirun3": lirun3,"liuliang1": liuliang1,"liuliang2": liuliang2,"liuliang3": liuliang3},
+
+                        success: function (args) {
+                            args = JSON.parse(args);
+                            if (!args[0].流动负债合计期末余额||!args[1].流动负债合计期末余额||!args[2].流动负债合计期末余额||!args[3].营业总收入本期金额||!args[4].营业总收入本期金额||!args[5].营业总收入本期金额||!args[6].经营活动产生的现金流量本期金额||!args[7].经营活动产生的现金流量本期金额||!args[8].经营活动产生的现金流量本期金额) {
+                                if (!args[0].流动负债合计期末余额) {
+                                    $("#errmsg1").text("格式错误")
+                                }
+                                if (!args[1].流动负债合计期末余额) {
+                                    $("#errmsg2").text("格式错误")
+                                }
+                                if (!args[2].流动负债合计期末余额) {
+                                    $("#errmsg3").text("格式错误")
+                                }
+                                if (!args[3].营业总收入本期金额) {
+                                    $("#errmsg4").text("格式错误")
+                                }
+                                if (!args[4].营业总收入本期金额) {
+                                    $("#errmsg5").text("格式错误")
+                                }
+                                if (!args[5].营业总收入本期金额) {
+                                    $("#errmsg6").text("格式错误")
+                                }
+                                if (!args[6].经营活动产生的现金流量本期金额) {
+                                    $("#errmsg7").text("格式错误")
+                                }
+                                if (!args[7].经营活动产生的现金流量本期金额) {
+                                    $("#errmsg8").text("格式错误")
+                                }
+                                if (!args[8].经营活动产生的现金流量本期金额) {
+                                    $("#errmsg9").text("格式错误")
+                                }
+                            }else{
+                                $.ajax({
+                                    url: "/loan_errcontent/",
+                                    type: "POST",
+                                    data: {"fuzhai1": fuzhai1,"fuzhai2":fuzhai2,"fuzhai3":fuzhai3, "lirun1": lirun1, "lirun2": lirun2,"lirun3": lirun3,"liuliang1": liuliang1,"liuliang2": liuliang2,"liuliang3": liuliang3},
+                                    success:function(data){
+                                        data = JSON.parse(data)
+                                        if(data.status) {
+                                            console.log(data)
+                                            $("#contenterr1").text("第一年文件中存在的错误信息：" + data.msg[0])
+                                            $("#contenterr2").text("第二年文件中存在的错误信息：" + data.msg[1])
+                                            $("#contenterr3").text("第三年文件中存在的错误信息：" + data.msg[2])
+                                        }else{
+                                            document.getElementById("form").submit()
+                                            location.href("/贷款分析1/贷款分析2/loan_result")
+                                        }
+                                    }
+                                })
+
+                            }
+
+
+                        }
+                    })
+                }
+                    }
+
+        </script>
+    </body>
+</html>

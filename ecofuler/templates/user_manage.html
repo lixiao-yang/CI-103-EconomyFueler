@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+{% block li %}
+<li><a href="/background_index/user_manage">用户管理</a></li>
+{% endblock %}
+{% block xx %}
+<div style="margin-bottom: 50px">
+    <table class="table" style="width:1260px;margin: 0 auto;">
+        <tr style="border:1px solid #dddddd;">
+            <td colspan="4" style="vertical-align: middle"><b style="font-size: 18px">用户数据</b></td>
+            <td><button type="button" class="btn btn-default" style="float: right;size:18px">2021-5-14</button></td>
+        </tr>
+        <tr>
+            <td  style="width: 20%;height: 120px;border:1px solid #dddddd;text-align: center;vertical-align: middle!important;">注册用户<br><b style="font-size: 35px">{{ user_count }}</b></td>
+            <td  style="width: 20%;height: 120px;border:1px solid #dddddd;text-align: center;vertical-align: middle!important;">在线用户<br><b style="font-size: 35px">200</b></td>
+            <td  style="width: 20%;height: 120px;border:1px solid #dddddd;text-align: center;vertical-align: middle!important;">活跃用户<br><b style="font-size: 35px">300</b></td>
+            <td  style="width: 20%;height: 120px;border:1px solid #dddddd;text-align: center;vertical-align: middle!important;">用户业务使用率<br><b style="font-size: 35px">80%</b></td>
+            <td  style="width: 20%;height: 120px;border:1px solid #dddddd;text-align: center;vertical-align: middle!important">人均支付<br><b style="font-size: 35px">500</b></td>
+        </tr>
+    </table>
+<br><br>
+<div style="clear: both;horiz-align: center;margin:0 auto;width: 800px">
+    <table class="table table-bordered">
+        <tr>
+            <th>用户id</th>
+            <th>用户姓名</th>
+            <th>用户密码</th>
+        </tr>
+        {% for item in user %}
+            <tr>
+                <td>{{ item.id }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.password }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+</div>
+{% endblock %}

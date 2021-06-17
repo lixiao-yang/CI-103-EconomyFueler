@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>用户列表</h1>
+<ul>
+    {% for row in posts.object_list %}
+        <li>{{ row.name }}</li>
+    {% endfor %}
+</ul>
+<div>
+    {% if posts.has_next %}
+        <a href="/index/?page={{ posts.next_page_number }}">下一页</a>
+    {% endif %}
+    {% for num in posts.paginator.page_range %}
+        <a href="/index/?page={{ num }}">{{ num }}</a>
+    {% endfor %}
+    {% if posts.has_previous %}
+        <a href="/index/?page={{ posts.previous_page_number }}">上一页</a>
+    {% endif %}
+</div>
+</body>
+</html>

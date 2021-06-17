@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>上传财务数据文件</title>
+        <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+        <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <img src="新建文件夹/logo.png" width="100px" alt="logo">
+                </div>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#"><span class="glyphicon glyphicon-user"></span>注册</a></li> <!--链接到注册.html-->
+                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span>登录</a></li> <!--链接到登录.html-->
+                    <li><a href="#"><span class="glyphicon glyphicon-envelope"></span>联系我们</a></li> <!--链接到联系我们.html-->
+                </ul>
+            </div>
+        </nav>
+        <br/><br/><br/>
+        <ol class="breadcrumb">
+            <li><a href="#">首页</a></li> <!--链接到首页.html-->
+            <li><a href="#">初步分析</a></li> <!--链接到功能选择.html-->
+            <li><a href="#">选择地区及产业</a></li> <!--链接到初步分析1.html-->
+            <li class="active">上传财务数据文件</li>
+        </ol>
+        <br/><br/><br/><br/>
+        <div class="jumbotron" align="center">
+            <h3>请上传您的公司<strong>同一年</strong>的财务数据文件</h3>
+            <br/><br/><br/>
+            <form class="form-inline" method="POST" action="/初步分析1/初步分析2/result/" id="form">
+                <div class="form-group" align="center" style="margin-bottom: 20px">
+                    <label for="fileField1">请上传资产负债表:</label>
+                    <input type="file" id="fileField1" name="fuzhai" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" align="center" class="form-control-static">
+                    <span style="position: fixed;margin-top:10px" id="errmsg1"></span>
+
+                </div>
+                <br/>
+                <div class="form-group" align="center" style="margin-bottom: 20px">
+                    <label for="fileField2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请上传利润表:</label>
+                    <input type="file" name="lilun" id="fileField2" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" align="center" class="form-control-static">
+                    <span style="position: fixed;margin-top:10px" id="errmsg2"></span>
+                </div>
+                <br/>
+                <div class="form-group" align="center" style="margin-bottom: 20px">
+                    <label for="fileField3">请上传现金流量表:</label>
+                    <input type="file" id="fileField3" name="liuliang" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" align="center" class="form-control-static">
+                    <span style="position: fixed;margin-top:10px" id="errmsg3"></span>
+                </div>
+            </form>
+            <br/><br/><br/>
+            <div id="contenterr"></div>
+            <br/><br/><br/>
+            <a href="新建文件夹/资产负债表模板.xlsx">点击下载资产负债表模板</a>  <a href="新建文件夹/利润表模板.xlsx">点击下载利润表模板</a>  <a href="新建文件夹/现金流量表模板.xlsx">点击下载现金流量表模板</a>
+            <br/><br/><br/><br/>
+            <button class="btn btn-primary btn-lg" onclick="dataSubmit()">提交</button> <!--链接到初步分析结果.html-->
+        </div>
+        <br/><br/><br/><br/>
+        <div align="center">
+            <footer>
+                <p>© 2021 Economic Fueler Project Team</p>
+            </footer>
+        </div>
+        <script>
+            function dataSubmit(){
+                document.getElementById("errmsg1").innerHTML = ""
+                document.getElementById("errmsg2").innerHTML = ""
+                document.getElementById("errmsg3").innerHTML = ""
+                document.getElementById("contenterr").innerHTML = ""
+                var fuzhai = document.getElementById("fileField1").value;
+                var lirun = document.getElementById("fileField2").value;
+                var liuliang = document.getElementById("fileField3").value;
+                if(!fuzhai||!lirun||!liuliang){
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    if(!fuzhai){
+                        $("#errmsg1").text("格式错误")
+                    }
+                    if(!lirun){
+                        $("#errmsg2").text("格式错误")
+                    }
+                    if(!liuliang){
+                        $("#errmsg3").text("格式错误")
+                    }
+                }else {
+                    fuzhai = document.getElementById("fileField1").files[0].name
+                    lirun = document.getElementById("fileField2").files[0].name
+                    liuliang = document.getElementById("fileField3").files[0].name
+                    console.log(fuzhai)
+                    $.ajax({
+                        url: "/ini_errtest/",
+                        type: "POST",
+                        data: {"fuzhai": fuzhai, "lirun": lirun, "liuliang": liuliang},
+                        success: function (args) {
+                            args = JSON.parse(args);
+                            if (!args[0].流动负债合计期末余额||!args[1].营业总收入本期金额||!args[2].经营活动产生的现金流量本期金额) {
+                                if (!args[0].流动负债合计期末余额) {
+                                    $("#errmsg1").text("格式错误")
+                                }
+                                if (!args[1].营业总收入本期金额) {
+                                    $("#errmsg2").text("格式错误")
+                                }
+                                if (!args[2].经营活动产生的现金流量本期金额) {
+                                    $("#errmsg3").text("格式错误")
+                                }
+                            }else{
+                                $.ajax({
+                                    url:"/ini_contenterr/",
+                                    type:"POST",
+                                    data:{"fuzhai": fuzhai, "lirun": lirun, "liuliang": liuliang},
+                                    success:function (data){
+                                        data = JSON.parse(data)
+                                        if(data.status){
+                                            $("#contenterr").text("文件中存在的错误信息： " + data.msg)
+                                        }else{
+                                            document.getElementById("form").submit()
+                                            location.href("/初步分析1/初步分析2/result/")
+                                        }
+                                    }
+                                })
+
+                            }
+
+                        }
+                    })
+                }
+            }
+        </script>
+    </body>
+</html>

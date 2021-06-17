@@ -1,0 +1,352 @@
+{% extends 'layout.html' %}
+{% block li %}
+    <li><a href="/background_index/database_manage/">数据库管理</a></li>
+{% endblock %}
+{% block xx %}
+    <style>
+        .hide{
+            display:none;
+        }
+        .shadow{
+            position:fixed;
+            left:0;
+            top:0;
+            right:0;
+            bottom:0;
+            background-color:black;
+            opacity:0.4;
+            z-index:999;
+        }
+        .model{
+            z-index: 1000;
+            position:fixed;
+            left:50%;
+            top:50%;
+            height:300px;
+            width:400px;
+            background: white;
+            margin-left:-200px;
+            margin-top: -150px;
+        }
+    </style>
+    <div style="text-align: center;margin-bottom: 50px">
+        <h1>各行业贷款数据</h1>
+    </div>
+    <div style="margin-bottom: 150px">
+    <div style="height: 20px;width: 460px;float: left">
+
+    </div>
+<div class="dropdown" style="float: left">
+  <button class="btn btn-group" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    南部地区省份
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu">
+    <li><a href="#">福建</a></li>
+    <li><a href="#">海南</a></li>
+    <li><a href="#">广东</a></li>
+    <li><a href="#">广西</a></li>
+    <li><a href="#">江苏</a></li>
+    <li><a href="#">江西</a></li>
+    <li><a href="#">贵州</a></li>
+    <li><a href="#">湖南</a></li>
+    <li><a href="#">湖北</a></li>
+    <li><a href="#">安徽</a></li>
+    <li><a href="#">重庆</a></li>
+    <li><a href="#">四川</a></li>
+    <li><a href="#">上海</a></li>
+    <li><a href="#">浙江</a></li>
+    <li><a href="#">台湾</a></li>
+    <li><a href="#">香港</a></li>
+    <li><a href="#">澳门</a></li>
+  </ul>
+<button type="button" class="btn btn-primary btn-lg">全国数据</button>
+<div class="btn-group">
+  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    北方地区省份 <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu">
+    <li><a href="#">北京</a></li>
+    <li><a href="#">天津</a></li>
+    <li><a href="#">山东</a></li>
+    <li><a href="#">河南</a></li>
+    <li><a href="#">山西</a></li>
+    <li><a href="#">陕西</a></li>
+    <li><a href="#">甘肃</a></li>
+    <li><a href="#">青海</a></li>
+    <li><a href="#">新疆</a></li>
+    <li><a href="#">河北</a></li>
+    <li><a href="#">内蒙古</a></li>
+    <li><a href="#">辽宁</a></li>
+    <li><a href="#">吉林</a></li>
+    <li><a href="#">黑龙江</a></li>
+    <li><a href="#">宁夏</a></li>
+  </ul>
+</div>
+</div>
+</div>
+    <div style="width: 800px;margin: 0 auto">
+<div class="input-group" style="clear: both;width:300px;float: left">
+    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-search"></span></span>
+    <input type="text" id="searchinfo" class="form-control" placeholder="Search Information" aria-describedby="basic-addon1">
+
+</div>
+    <button onclick="getinfo()" class="left" style="height: 34px;">搜索</button>
+        <div style="float: right">
+
+            <button type="button" class="btn btn-info" onclick="showModel()"><span class="glyphicon glyphicon-plus">批量增加</span></button>
+            <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash">批量删除</span></button>
+        </div>
+    <div class="shadow hide" id="shadow"></div>
+    <div class="model hide" id="model">
+    <h3>请选择数据库表</h3>
+    <p>
+         资产负债表<input type="file" name="title" id="fuzhai">
+        <br>
+         利润表<input type="file" name="editid" id="lirun">
+        <br>
+        现金流量表<input type="file" name="sss" id="liuliang">
+    </p>
+    <input type="button" value="提交" onclick="modal_add();" id="bt"><span id="errormsg"></span>
+    <input type="button" value="取消" onclick="cancelModel();">
+</div>
+
+    <div style="clear: both;horiz-align: center;margin:0 auto;width: 800px">
+        <table class="table table-bordered" >
+            <thead>
+                <tr>
+                    <td>id</td>
+                    <td>地区</td>
+                    <td>时间年份</td>
+                    <td>行业名称</td>
+                    <td>指标名称</td>
+                    <td>指标值</td>
+                    <td>操作</td>
+                </tr>
+            </thead>
+            <tbody id="baseinfo">
+                {% for row in user_info %}
+                    <tr>
+                        <td>{{ row.id }}</td>
+                        <td>全国</td>
+                        <td>{{ row.time }}</td>
+                        <td>{{ row.indus_id.indus_name }}</td>
+                        <td>{{ row.bs_id.bs_name }}</td>
+                        <td>{{ row.value }}</td>
+                        <td><a>删除</a>|
+                            <a>编辑</a>
+                        </td>
+                    </tr>
+
+                {% endfor %}
+                {% for row in user_info1 %}
+                    <tr>
+                        <td>{{ row.id }}</td>
+                        <td>全国</td>
+                        <td>{{ row.time }}</td>
+                        <td>{{ row.indus_id.indus_name }}</td>
+                        <td>{{ row.ps_id.ps_name }}</td>
+                        <td>{{ row.value }}</td>
+                        <td><a>删除</a>|
+                            <a>编辑</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+
+                {% for row in user_info2 %}
+                    <tr>
+                        <td>{{ row.id }}</td>
+                        <td>全国</td>
+                        <td>{{ row.time }}</td>
+                        <td>{{ row.indus_id.indus_name }}</td>
+                        <td>{{ row.cf_id.cf_name }}</td>
+                        <td>{{ row.value }}</td>
+                        <td><a>删除</a>|
+                            <a>编辑</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            <tbody id="showinfo">
+
+            </tbody>
+        </table>
+        <table width="60%" align="right">
+            <tr><td><div id="barcon" name="barcon"></div></td></tr>
+        </table>
+    </div>
+    <div style="clear: both;text-align: center;margin-top: 100px;" id="base_nav">
+    <nav aria-label="Page navigation">
+  <ul class="pagination">
+    <li>
+      <a href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+      {{ page_info.pager | safe }}
+    <li>
+      <a href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+    </div>
+    </div>
+{% endblock %}
+{% block js %}
+    <script src="https://cdn.bootcss.com/xlsx/0.11.5/xlsx.core.min.js"></script>
+    <script src="https://unpkg.com/read-excel-file@4.1.0/bundle/read-excel-file.min.js"></script>
+    <script type="text/javascript">
+
+        function getinfo(){
+            var searchinfo = $("#searchinfo").val();
+            if(searchinfo){
+                $("#baseinfo").attr("class","hide");
+                $.ajax({
+                    url:"/search_info/",
+                    type:"POST",
+                    data:{"searchinfo":searchinfo},
+                    dataType:"json",
+                    success:function (args){
+                        console.log(args[0])
+                        $("#showinfo tr").remove()
+                        $.each(args,function (index,item){
+                            if(item.bs_id__bs_name) {
+                                $("#showinfo").append("<tr><td>" + item.id + "</td><td>" + "全国" + "</td><td>" + item.time + "</td><td>" + item.indus_id__indus_name + "</td><td>" + item.bs_id__bs_name + "</td><td>" + item.value + "</td><td><a>删除</a>|<a>编辑</a></td></tr>")
+                            }
+                            if(item.ps_id__ps_name){
+                                $("#showinfo").append("<tr><td>" + item.id + "</td><td>" + "全国" + "</td><td>" + item.time + "</td><td>" + item.indus_id__indus_name + "</td><td>" + item.ps_id__ps_name + "</td><td>" + item.value + "</td><td><a>删除</a>|<a>编辑</a></td></tr>")
+                            }
+                            if(item.cf_id__cf_name){
+                                $("#showinfo").append("<tr><td>" + item.id + "</td><td>" + "全国" + "</td><td>" + item.time + "</td><td>" + item.indus_id__indus_name + "</td><td>" + item.cf_id__cf_name + "</td><td>" + item.value + "</td><td><a>删除</a>|<a>编辑</a></td></tr>")
+                            }
+                        })
+
+                        goPage(1,10)
+                    }
+            })
+            }
+        }
+        function goPage(pno,psize){
+    var itable = document.getElementById("showinfo");
+
+    var num = itable.rows.length;//表格所有行数(所有记录数)
+    var ttl_data = []
+    for(var c=0;c<num;c++) {
+        var arow = []
+        for(var j=0;j<itable.rows[c].cells.length;j++){
+            var cell = itable.rows[c].cells[j]
+            arow.push(cell)
+            console.log(cell.innerHTML);
+        }
+        ttl_data.push(arow)
+    }
+    console.log(ttl_data)
+    console.log(num);
+    var totalPage = 0;//总页数
+    var pageSize = psize;//每页显示行数
+    //总共分几页
+    if(num/pageSize > parseInt(num/pageSize)){
+            totalPage=parseInt(num/pageSize)+1;
+       }else{
+           totalPage=parseInt(num/pageSize);
+       }
+    var currentPage = pno;//当前页数
+    var startRow = (currentPage - 1) * pageSize+1;//开始显示的行  31
+       var endRow = currentPage * pageSize;//结束显示的行   40
+       endRow = (endRow > num)? num : endRow;    40
+       console.log(endRow);
+       //遍历显示数据实现分页
+    for(var i=1;i<(num+1);i++){
+        var irow = itable.rows[i-1];
+        if(i>=startRow && i<=endRow){
+            irow.style.display = ""
+        }else{
+            irow.style.display = "none";
+        }
+    }
+    var pageEnd = document.getElementById("pageEnd");
+    var tempStr = "共"+num+"条记录 分"+totalPage+"页 当前第"+currentPage+"页";
+    if(currentPage>1){
+        tempStr += "<a href=\"#\" onClick=\"goPage("+(1)+","+psize+")\">首页</a>";
+        tempStr += "<a href=\"#\" onClick=\"goPage("+(currentPage-1)+","+psize+")\"><上一页</a>"
+    }else{
+        tempStr += "首页";
+        tempStr += "<上一页";
+    }
+
+    if(currentPage<totalPage){
+        tempStr += "<a href=\"#\" onClick=\"goPage("+(currentPage+1)+","+psize+")\">下一页></a>";
+        tempStr += "<a href=\"#\" onClick=\"goPage("+(totalPage)+","+psize+")\">尾页</a>";
+    }else{
+        tempStr += "下一页>";
+        tempStr += "尾页";
+    }
+    document.getElementById("base_nav").style.display= "none"
+    document.getElementById("barcon").innerHTML = tempStr;
+
+}
+function modal_add(){
+            var file_add1 = document.getElementById("fuzhai")
+            var file_add2 = document.getElementById("lirun")
+            var file_add3 = document.getElementById("liuliang")
+            console.log(file_add2.files[0])
+            if(file_add1.files[0]) {
+                readXlsxFile(file_add1.files[0]).then(function (data) {
+                    data = JSON.stringify(data)
+                    console.log(data)
+                    $.ajax({
+                        url: "/model_add/",
+                        type: "POST",
+                        data: {"add_data1": data},
+                        success: function (args) {
+                            console.log(args)
+                        }
+                    })
+                })
+            }
+            if(file_add2.files[0]) {
+                readXlsxFile(file_add2.files[0]).then(function (data) {
+                    data = JSON.stringify(data)
+                    console.log(data)
+                    $.ajax({
+                        url: "/model_add/",
+                        type: "POST",
+                        data: {"add_data2": data},
+                        success: function (args) {
+                            alert("更新成功")
+                        }
+                    })
+                })
+            }
+            if(file_add3.files[0]) {
+                readXlsxFile(file_add3.files[0]).then(function (data) {
+                    data = JSON.stringify(data)
+                    console.log(data)
+                    $.ajax({
+                        url: "/model_add/",
+                        type: "POST",
+                        data: {"add_data3": data},
+                        success: function (args) {
+                            console.log(args)
+                        }
+                    })
+                })
+            }
+        }
+
+
+
+function cancelModel(){
+           document.getElementById("shadow").classList.add("hide");
+           document.getElementById("model").classList.add("hide");
+
+       }
+              function showModel(){
+           document.getElementById("shadow").classList.remove("hide");
+           document.getElementById("model").classList.remove("hide");
+       }
+
+    </script>
+{% endblock %}

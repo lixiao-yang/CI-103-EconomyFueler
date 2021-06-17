@@ -1,0 +1,24 @@
+Lixiao Yang（PM）
+Integrated scheduling and planning
+Refining models through financial material
+Assist in the development of algorithms
+Assist in database design
+Jiahe Xie：
+develop the back end and interact with front end
+Data visualization and data transforming
+Aoyu Liu：
+develop the website  
+enable the website to interact with the users and back end
+Xinyue Zeng：
+Database design
+Create relational database
+Preparation of raw data
+Huiru Chang：
+Refining models through financial material
+Preparation and screening of raw data
+Assist in the development of algorithms
+
+
+
+
+

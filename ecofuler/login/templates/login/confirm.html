@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>验证注册</title>
+</head>
+<body>
+    {% extends 'base.html' %}
+{% block title %}注册确认{% endblock %}
+{% block content %}
+    <div class="row">
+        <h1 class="text-center">{{ message }}</h1>
+    </div>
+    <script>
+        window.setTimeout("window.location='/login/'",2000);
+    </script>
+{% endblock %}
+
+</body>
+</html>

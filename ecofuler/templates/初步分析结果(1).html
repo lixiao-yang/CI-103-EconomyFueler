@@ -1,0 +1,319 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>初步分析结果</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <img src="/static/新建文件夹/logo.png" width="100px" alt="logo">
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                    {% if request.session.is_login %}
+                    <li><a href="#">当前在线：{{ request.session.user_name }}</a></li>
+                    <li><a href="/logout/">登出</a></li>
+                    {% else %}
+                    <li><a href="/register/"><span class="glyphicon glyphicon-user"></span>注册</a></li> <!--链接到注册.html-->
+                    <li><a href="/login/"><span class="glyphicon glyphicon-log-in"></span>登录</a></li> <!--链接到登录.html-->
+                    <li><a href="/联系我们/"><span class="glyphicon glyphicon-envelope"></span>联系我们</a></li> <!--链接到联系我们.html-->
+                    {% endif %}
+                </ul>
+        </div>
+    </nav>
+    <br /><br /><br />
+    <ol class="breadcrumb">
+        <li><a href="#">首页</a></li>
+        <!--链接到首页.html-->
+        <li><a href="#">功能选择</a></li>
+        <!--链接到功能选择.html-->
+        <li><a href="#">初步分析</a></li>
+        <!--链接到初步分析.html-->
+        <li><a href="#">选择地区,产业类型及规模并上传财务文件</a></li>
+        <!--链接到初步分析.html-->
+        <li class="active">初步分析结果</li>   
+    </ol>
+    <div class="jumbotron" align="center">
+    <div id="main1" style="width: 1500px;height:600px;">
+
+    </div>
+    <script>
+        var myChart = echarts.init(document.getElementById('main1'));
+
+        var option = {
+            title : {
+                text: '资产负债数据'
+            },
+            tooltip : {
+                trigger: 'axis'
+            },
+            legend: {
+                data:['用户数据（元）','行业平均值（元）']
+            },
+
+            toolbox: {
+                show : true,
+                feature : {
+                    dataView: {
+                show: true,
+                title: '数据视图',
+                optionToContent: function (opt) {
+                    var axisData = opt.xAxis[0].data;
+                    var series = opt.series;
+                    var tdHeads = '<td  style="padding:0 10px">名称</td>';
+                    series.forEach(function (item) {
+                        tdHeads += '<td style="padding: 0 10px">'+item.name+'</td>';
+                    });
+                    var table = '<table border="1" style="margin-left:20px;border-collapse:collapse;font-size:14px;text-align:center"><tbody><tr>'+tdHeads+'</tr>';
+                    var tdBodys = '';
+                    for (var i = 0, l = axisData.length; i < l; i++) {
+                        for (var j = 0; j < series.length; j++) {
+                            if(typeof(series[j].data[i]) == 'object'){
+                                tdBodys += '<td>'+series[j].data[i].value+'</td>';
+                            }else{
+                                tdBodys += '<td>'+ series[j].data[i]+'</td>';
+                            }
+                        }
+                        table += '<tr><td style="padding: 0 10px">'+axisData[i]+'</td>'+ tdBodys +'</tr>';
+                        tdBodys = '';
+                    }
+                    table += '</tbody></table>';
+                    return table;
+                }
+            },
+                    magicType : {show: true, type: ['line', 'bar']},
+                    restore : {show: true},
+                    saveAsImage : {show: true}
+                }
+            },
+            calculable : true,
+            xAxis : [
+                {
+                    axisLabel:{interval:0},
+                    type : 'category',
+                    data : ['资产总计平均值','流动资产合计平均值','应收账款平均值','存货平均值','负债合计平均值','流动负债合计平均值','应付账款平均值','所有者权益合计平均值','实收资本平均值']
+                }
+            ],
+            yAxis : [
+                {
+                    type : 'value'
+                }
+            ],
+            series : [
+                {
+                    name:'用户数据（元）',
+                    type:'bar',
+                    data:[{{ user_avg.资产总计平均值 }}, {{ user_avg.流动资产合计平均值 }}, {{ user_avg.应收账款平均值 }}, {{ user_avg.存货平均值 }},{{ user_avg.负债合计平均值 }},{{ user_avg.流动负债合计平均值 }},{{ user_avg.应付账款平均值 }},{{ user_avg.所有者权益合计平均值 }},{{ user_avg.实收资本平均值 }}],
+                    color:'#5B9BD5' 
+                },
+                {
+                    name:'行业平均值（元）',
+                    type:'bar',
+                    data:[{{ ind_avg.资产总计平均值 }}, {{ ind_avg.流动资产合计平均值 }}, {{ ind_avg.应收账款平均值 }}, {{ ind_avg.存货平均值 }},{{ ind_avg.负债合计平均值 }},{{ ind_avg.流动负债合计平均值 }},{{ ind_avg.应付账款平均值 }},{{ ind_avg.所有者权益合计平均值 }},{{ ind_avg.实收资本平均值 }}],
+                    color:'#70AD47'
+                }
+            ]
+        };
+        myChart.setOption(option);
+    </script>
+</br></br></br></br>
+<div id="main2" style="width: 1500px;height:600px;"></div>
+<script>
+    var myChart = echarts.init(document.getElementById('main2'));
+
+    var option = {
+        title : {
+            text: '利润数据'
+        },
+        tooltip : {
+            trigger: 'axis'
+        },
+        legend: {
+            data:['用户数据（元）','行业平均值（元）']
+        },
+        toolbox: {
+            show : true,
+            feature : {
+                dataView: {
+            show: true,
+            title: '数据视图',
+            optionToContent: function (opt) {
+                var axisData = opt.xAxis[0].data;
+                var series = opt.series;
+                var tdHeads = '<td  style="padding:0 10px">名称</td>';
+                series.forEach(function (item) {
+                    tdHeads += '<td style="padding: 0 10px">'+item.name+'</td>';
+                });
+                var table = '<table border="1" style="margin-left:20px;border-collapse:collapse;font-size:14px;text-align:center"><tbody><tr>'+tdHeads+'</tr>';
+                var tdBodys = '';
+                for (var i = 0, l = axisData.length; i < l; i++) {
+                    for (var j = 0; j < series.length; j++) {
+                        if(typeof(series[j].data[i]) == 'object'){
+                            tdBodys += '<td>'+series[j].data[i].value+'</td>';
+                        }else{
+                            tdBodys += '<td>'+ series[j].data[i]+'</td>';
+                        }
+                    }
+                    table += '<tr><td style="padding: 0 10px">'+axisData[i]+'</td>'+ tdBodys +'</tr>';
+                    tdBodys = '';
+                }
+                table += '</tbody></table>';
+                return table;
+            }
+        },
+                magicType : {show: true, type: ['line', 'bar']},
+                restore : {show: true},
+                saveAsImage : {show: true}
+            }
+        },
+        calculable : true,
+        xAxis : [
+            {
+                axisLabel:{interval:0},
+                type : 'category',
+                data : ['主营业务收入平均值','主营业务成本平均值','销售费用平均值','管理费用平均值','财务费用平均值','利息收入平均值','营业利润平均值','利润总额平均值']
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : [
+            {
+                name:'用户数据（元）',
+                type:'bar',
+                data:[{{ user_avg.主营业务收入平均值 }}, {{ user_avg.主营业务成本平均值 }}, {{ user_avg.销售费用平均值 }}, {{ user_avg.管理费用平均值 }},{{ user_avg.财务费用平均值 }},{{ user_avg.利息收入平均值 }},{{ user_avg.营业利润平均值 }},{{ user_avg.利润总额平均值 }}],
+                color:'#5B9BD5' 
+            },
+            {
+                name:'行业平均值（元）',
+                type:'bar',
+                data:[{{ ind_avg.主营业务收入平均值 }}, {{ ind_avg.主营业务成本平均值 }}, {{ind_avg.销售费用平均值 }}, {{ ind_avg.管理费用平均值 }},{{ ind_avg.财务费用平均值 }},{{ ind_avg.利息收入平均值 }},{{ ind_avg.营业利润平均值 }},{{ ind_avg.利润总额平均值 }}],
+                color:'#70AD47'
+            }
+        ]
+    };
+    myChart.setOption(option);
+</script>
+</br></br></br></br>
+<div id="main3" style="width: 1500px;height:600px;"></div>
+<script>
+    var myChart = echarts.init(document.getElementById('main3'));
+
+    var option = {
+        title : {
+            text: '现金流量数据'
+        },
+        tooltip : {
+            trigger: 'axis'
+        },
+        legend: {
+            data:['用户数据（元）','行业平均值（元）']
+        },
+        toolbox: {
+            show : true,
+            feature : {
+                dataView: {
+            show: true,
+            title: '数据视图',
+            optionToContent: function (opt) {
+                var axisData = opt.xAxis[0].data;
+                var series = opt.series;
+                var tdHeads = '<td  style="padding:0 10px">名称</td>';
+                series.forEach(function (item) {
+                    tdHeads += '<td style="padding: 0 10px">'+item.name+'</td>';
+                });
+                var table = '<table border="1" style="margin-left:20px;border-collapse:collapse;font-size:14px;text-align:center"><tbody><tr>'+tdHeads+'</tr>';
+                var tdBodys = '';
+                for (var i = 0, l = axisData.length; i < l; i++) {
+                    for (var j = 0; j < series.length; j++) {
+                        if(typeof(series[j].data[i]) == 'object'){
+                            tdBodys += '<td>'+series[j].data[i].value+'</td>';
+                        }else{
+                            tdBodys += '<td>'+ series[j].data[i]+'</td>';
+                        }
+                    }
+                    table += '<tr><td style="padding: 0 10px">'+axisData[i]+'</td>'+ tdBodys +'</tr>';
+                    tdBodys = '';
+                }
+                table += '</tbody></table>';
+                return table;
+            }
+        },
+                magicType : {show: true, type: ['line', 'bar']},
+                restore : {show: true},
+                saveAsImage : {show: true}
+            }
+        },
+        calculable : true,
+        xAxis : [
+            {
+                axisLabel:{interval:0},
+                type : 'category',
+                data : ['投资收益平均值']
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : [
+            {
+                name:'用户数据（元）',
+                type:'bar',
+                data:[{{ user_avg.投资收益平均值 }}],
+                color:'#5B9BD5' 
+            },
+            {
+                name:'行业平均值（元）',
+                type:'bar',
+                data:[{{ ind_avg.投资收益平均值 }}],
+                color:'#70AD47'
+            }
+        ]
+    };
+    myChart.setOption(option);
+</script>
+</br></br></br></br>
+<div style="text-align: center;width: 1000px"><p>对比结果阐述</p>
+    <table class="table table-bordered" align="center">
+        <tr>
+            <th style="text-align: center">指标名称</th>
+            <th style="text-align: center">数值大小</th>
+            <th style="text-align: center">标准值</th>
+            <th style="text-align: center">分析结果</th>
+        </tr>
+        {% for item in analysis %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.value }}</td>
+                <td>{{ item.stad }}</td>
+                <td>{{ item.eval }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+    </div>
+
+    
+</body>
+</html>
+
+
+    <div align="center">
+        <footer>
+            <p>© 2021 Economic Fueler Project Team</p>
+        </footer>
+    </div>
+</body>
+
+</html>

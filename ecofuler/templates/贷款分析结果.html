@@ -1,0 +1,1072 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>贷款分析结果</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <img src="/static/新建文件夹/logo.png" width="100px" alt="logo">
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                    {% if request.session.is_login %}
+                    <li><a href="#">当前在线：{{ request.session.user_name }}</a></li>
+                    <li><a href="/logout/">登出</a></li>
+                    {% else %}
+                    <li><a href="/register/"><span class="glyphicon glyphicon-user"></span>注册</a></li> <!--链接到注册.html-->
+                    <li><a href="/login/"><span class="glyphicon glyphicon-log-in"></span>登录</a></li> <!--链接到登录.html-->
+                    <li><a href="/联系我们/"><span class="glyphicon glyphicon-envelope"></span>联系我们</a></li> <!--链接到联系我们.html-->
+                    {% endif %}
+                </ul>
+        </div>
+    </nav>
+    <br /><br /><br />
+    <ol class="breadcrumb">
+        <li><a href="#">首页</a></li>
+        <!--链接到首页.html-->
+        <li><a href="#">功能选择</a></li>
+        <!--链接到功能选择.html-->
+        <li><a href="#">贷款分析</a></li>
+        <!--链接到贷款分析.html-->
+        <li><a href="#">选择地区,产业类型及规模并上传财务文件</a></li>
+        <!--链接到贷款分析.html-->
+        <li class="active">贷款分析结果</li>   
+    </ol>
+    <div class="jumbotron" align='center'>
+        <p align='center'>制造业企业信用评级指标体系与计分标准</p>
+    <div id="main1" style="width: 500px;height:400px;float:left;"></div>
+    <script>
+        var myChart = echarts.init(document.getElementById('main1'));
+        var option = {
+    title: {
+        text: '资产负债率'
+    },
+    tooltip: {
+        trigger: 'axis'
+    },
+    legend: {
+        data: ['用户数据（百分比）','行业标准值（百分比）']
+    },
+    toolbox: {
+                show : true,
+                feature : {
+                    dataView: {
+                show: true,
+                title: '数据视图',
+                optionToContent: function (opt) {
+                    var axisData = opt.xAxis[0].data;
+                    var series = opt.series;
+                    var tdHeads = '<td  style="padding:0 10px">名称</td>';
+                    series.forEach(function (item) {
+                        tdHeads += '<td style="padding: 0 10px">'+item.name+'</td>';
+                    });
+                    var table = '<table border="1" style="margin-left:20px;border-collapse:collapse;font-size:14px;text-align:center"><tbody><tr>'+tdHeads+'</tr>';
+                    var tdBodys = '';
+                    for (var i = 0, l = axisData.length; i < l; i++) {
+                        for (var j = 0; j < series.length; j++) {
+                            if(typeof(series[j].data[i]) == 'object'){
+                                tdBodys += '<td>'+series[j].data[i].value+'</td>';
+                            }else{
+                                tdBodys += '<td>'+ series[j].data[i]+'</td>';
+                            }
+                        }
+                        table += '<tr><td style="padding: 0 10px">'+axisData[i]+'</td>'+ tdBodys +'</tr>';
+                        tdBodys = '';
+                    }
+                    table += '</tbody></table>';
+                    return table;
+                }
+            },
+            magicType : {show: true, type: ['line', 'bar']},
+                    restore : {show: true},
+                    saveAsImage : {show: true}
+        }
+    },
+    xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: ['2018','2019','2020']//年份根据用户提供数据
+    },
+    yAxis: [
+                    {  
+                        type: 'value',  
+                        axisLabel: {  
+                            show: true,  
+                            interval: 'auto',  
+                            formatter: '{value} %'  
+                            },  
+                        show: true  
+                    }  
+                ],
+    series: [
+        {
+            name: '用户数据（百分比）',
+            type: 'line',
+            data: [{% widthratio first.资产负债率.0 1 100 %}, {% widthratio second.资产负债率.0 1 100 %}, {% widthratio third.资产负债率.0 1 100 %}],//用户数据
+            color:'#5B9BD5'
+        },  
+        {
+            name:'行业标准值（百分比）',
+            type:'line',
+            data:[65, 65, 65],//行业平均值
+            color:'#70AD47'
+        }
+    ],
+};
+        myChart.setOption(option);
+    </script>
+<div id="main2" style="width: 500px;height:400px;float:left;"></div>
+    <script>
+        var myChart = echarts.init(document.getElementById('main2'));
+
+        var option = {
+    title: {
+        text: '流动比率'
+    },
+    tooltip: {
+        trigger: 'axis'
+    },
+    legend: {
+        data: ['用户数据（百分比）','行业标准值（百分比）']
+    },
+    toolbox: {
+                show : true,
+                feature : {
+                    dataView: {
+                show: true,
+                title: '数据视图',
+                optionToContent: function (opt) {
+                    var axisData = opt.xAxis[0].data;
+                    var series = opt.series;
+                    var tdHeads = '<td  style="padding:0 10px">名称</td>';
+                    series.forEach(function (item) {
+                        tdHeads += '<td style="padding: 0 10px">'+item.name+'</td>';
+                    });
+                    var table = '<table border="1" style="margin-left:20px;border-collapse:collapse;font-size:14px;text-align:center"><tbody><tr>'+tdHeads+'</tr>';
+                    var tdBodys = '';
+                    for (var i = 0, l = axisData.length; i < l; i++) {
+                        for (var j = 0; j < series.length; j++) {
+                            if(typeof(series[j].data[i]) == 'object'){
+                                tdBodys += '<td>'+series[j].data[i].value+'</td>';
+                            }else{
+                                tdBodys += '<td>'+ series[j].data[i]+'</td>';
+                            }
+                        }
+                        table += '<tr><td style="padding: 0 10px">'+axisData[i]+'</td>'+ tdBodys +'</tr>';
+                        tdBodys = '';
+                    }
+                    table += '</tbody></table>';
+                    return table;
+                }
+            },
+            magicType : {show: true, type: ['line', 'bar']},
+                    restore : {show: true},
+                    saveAsImage : {show: true}
+        }
+    },
+    xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: ['2018','2019','2020']//年份根据用户提供数据
+    },
+    yAxis: [
+                    {  
+                        type: 'value',  
+                        axisLabel: {  
+                            show: true,  
+                            interval: 'auto',  
+                            formatter: '{value} %'  
+                            },  
+                        show: true  
+                    }  
+                ],
+    series: [
+        {
+            name: '用户数据（百分比）',
+            type: 'line',
+            data: [{% widthratio first.流动比率.0 1 100 %}, {% widthratio second.流动比率.0 1 100 %}, {% widthratio third.流动比率.0 1 100 %}],//用户数据
+            color:'#5B9BD5'
+        },  
+        {
+            name:'行业标准值（百分比）',
+            type:'line',
+            data:[130, 130, 130],//行业平均值
+            color:'#70AD47'
+        }
+    ],
+};
+        myChart.setOption(option);
+    </script>
+    <div id="main3" style="width: 500px;height:400px;float:left;"></div>
+    <script>
+        var myChart = echarts.init(document.getElementById('main3'));
+
+        var option = {
+    title: {
+        text: '现金比率'
+    },
+    tooltip: {
+        trigger: 'axis'
+    },
+    legend: {
+        data: ['用户数据（百分比）','行业标准值（百分比）']
+    },
+    toolbox: {
+                show : true,
+                feature : {
+                    dataView: {
+                show: true,
+                title: '数据视图',
+                optionToContent: function (opt) {
+                    var axisData = opt.xAxis[0].data;
+                    var series = opt.series;
+                    var tdHeads = '<td  style="padding:0 10px">名称</td>';
+                    series.forEach(function (item) {
+                        tdHeads += '<td style="padding: 0 10px">'+item.name+'</td>';
+                    });
+                    var table = '<table border="1" style="margin-left:20px;border-collapse:collapse;font-size:14px;text-align:center"><tbody><tr>'+tdHeads+'</tr>';
+                    var tdBodys = '';
+                    for (var i = 0, l = axisData.length; i < l; i++) {
+                        for (var j = 0; j < series.length; j++) {
+                            if(typeof(series[j].data[i]) == 'object'){
+                                tdBodys += '<td>'+series[j].data[i].value+'</td>';
+                            }else{
+                                tdBodys += '<td>'+ series[j].data[i]+'</td>';
+                            }
+                        }
+                        table += '<tr><td style="padding: 0 10px">'+axisData[i]+'</td>'+ tdBodys +'</tr>';
+                        tdBodys = '';
+                    }
+                    table += '</tbody></table>';
+                    return table;
+                }
+            },
+            magicType : {show: true, type: ['line', 'bar']},
+                    restore : {show: true},
+                    saveAsImage : {show: true}
+        }
+    },
+    xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: ['2018','2019','2020'],//年份根据用户提供数据
+    },
+    yAxis: [
+                    {  
+                        type: 'value',  
+                        axisLabel: {  
+                            show: true,  
+                            interval: 'auto',  
+                            formatter: '{value} %'  
+                            },  
+                        show: true  
+                    }  
+                ],
+    series: [
+        {
+            name: '用户数据（百分比）',
+            type: 'line',
+            data: [{% widthratio first.现金比率.0 1 100 %}, {% widthratio second.现金比率.0 1 100 %}, {% widthratio third.现金比率.0 1 100 %}],//用户数据
+            color:'#5B9BD5' 
+        },  
+        {
+            name:'行业标准值（百分比）',
+            type:'line',
+            data:[14, 14, 14],//行业平均值
+            color:'#70AD47'
+        }
+    ],
+};
+        myChart.setOption(option);
+    </script>
+<div id="main4" style="width: 500px;height:400px;float:left;"></div>
+<script>
+    var myChart = echarts.init(document.getElementById('main4'));
+
+    var option = {
+title: {
+    text: '经营活动现金流负债比'
+},
+tooltip: {
+    trigger: 'axis'
+},
+legend: {
+    data: ['用户数据（百分比）','行业标准值（百分比）']
+},
+toolbox: {
+            show : true,
+            feature : {
+                dataView: {
+            show: true,
+            title: '数据视图',
+            optionToContent: function (opt) {
+                var axisData = opt.xAxis[0].data;
+                var series = opt.series;
+                var tdHeads = '<td  style="padding:0 10px">名称</td>';
+                series.forEach(function (item) {
+                    tdHeads += '<td style="padding: 0 10px">'+item.name+'</td>';
+                });
+                var table = '<table border="1" style="margin-left:20px;border-collapse:collapse;font-size:14px;text-align:center"><tbody><tr>'+tdHeads+'</tr>';
+                var tdBodys = '';
+                for (var i = 0, l = axisData.length; i < l; i++) {
+                    for (var j = 0; j < series.length; j++) {
+                        if(typeof(series[j].data[i]) == 'object'){
+                            tdBodys += '<td>'+series[j].data[i].value+'</td>';
+                        }else{
+                            tdBodys += '<td>'+ series[j].data[i]+'</td>';
+                        }
+                    }
+                    table += '<tr><td style="padding: 0 10px">'+axisData[i]+'</td>'+ tdBodys +'</tr>';
+                    tdBodys = '';
+                }
+                table += '</tbody></table>';
+                return table;
+            }
+        },
+        magicType : {show: true, type: ['line', 'bar']},
+                restore : {show: true},
+                saveAsImage : {show: true}
+    }
+},
+xAxis: {
+    type: 'category',
+    boundaryGap: false,
+    data: ['2018','2019','2020']//年份根据用户提供数据
+},
+yAxis: [
+                    {  
+                        type: 'value',  
+                        axisLabel: {  
+                            show: true,  
+                            interval: 'auto',  
+                            formatter: '{value} %'  
+                            },  
+                        show: true  
+                    }  
+                ],
+series: [
+    {
+        name: '用户数据（百分比）',
+        type: 'line',
+        data: [{% widthratio first.经营活动现金流负债比.0 1 100 %}, {% widthratio second.经营活动现金流负债比.0 1 100 %}, {% widthratio third.经营活动现金流负债比.0 1 100 %}],//用户数据
+        color:'#5B9BD5'
+    },  
+    {
+        name:'行业标准值（百分比）',
+        type:'line',
+        data:[6, 6, 6],//行业平均值
+        color:'#70AD47'
+    }
+],
+};
+    myChart.setOption(option);
+</script>
+<div id="main5" style="width: 500px;height:400px;float:left;"></div>
+    <script>
+        var myChart = echarts.init(document.getElementById('main5'));
+
+        var option = {
+    title: {
+        text: '主营业务利润率'
+    },
+    tooltip: {
+        trigger: 'axis'
+    },
+    legend: {
+        data: ['用户数据（百分比）','行业标准值（百分比）']
+    },
+    toolbox: {
+                show : true,
+                feature : {
+                    dataView: {
+                show: true,
+                title: '数据视图',
+                optionToContent: function (opt) {
+                    var axisData = opt.xAxis[0].data;
+                    var series = opt.series;
+                    var tdHeads = '<td  style="padding:0 10px">名称</td>';
+                    series.forEach(function (item) {
+                        tdHeads += '<td style="padding: 0 10px">'+item.name+'</td>';
+                    });
+                    var table = '<table border="1" style="margin-left:20px;border-collapse:collapse;font-size:14px;text-align:center"><tbody><tr>'+tdHeads+'</tr>';
+                    var tdBodys = '';
+                    for (var i = 0, l = axisData.length; i < l; i++) {
+                        for (var j = 0; j < series.length; j++) {
+                            if(typeof(series[j].data[i]) == 'object'){
+                                tdBodys += '<td>'+series[j].data[i].value+'</td>';
+                            }else{
+                                tdBodys += '<td>'+ series[j].data[i]+'</td>';
+                            }
+                        }
+                        table += '<tr><td style="padding: 0 10px">'+axisData[i]+'</td>'+ tdBodys +'</tr>';
+                        tdBodys = '';
+                    }
+                    table += '</tbody></table>';
+                    return table;
+                }
+            },
+            magicType : {show: true, type: ['line', 'bar']},
+                    restore : {show: true},
+                    saveAsImage : {show: true}
+        }
+    },
+    xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: ['2018','2019','2020']//年份根据用户提供数据
+    },
+    yAxis: [
+                    {  
+                        type: 'value',  
+                        axisLabel: {  
+                            show: true,  
+                            interval: 'auto',  
+                            formatter: '{value} %'  
+                            },  
+                        show: true  
+                    }  
+                ],
+    series: [
+        {
+            name: '用户数据（百分比）',
+            type: 'line',
+            data: [{% widthratio first.主营业务利润率.0 1 100 %}, {% widthratio second.主营业务利润率.0 1 100 %}, {% widthratio third.主营业务利润率.0 1 100 %}],//用户数据
+            color:'#5B9BD5'
+        },  
+        {
+            name:'行业标准值（百分比）',
+            type:'line',
+            data:[8, 8, 8],//行业平均值
+            color:'#70AD47'
+        }
+    ],
+};
+        myChart.setOption(option);
+    </script>
+    <div id="main6" style="width: 500px;height:400px;float:left;"></div>
+
+    <script>
+        var myChart = echarts.init(document.getElementById('main6'));
+
+        var option = {
+    title: {
+        text: '资本回报率'
+    },
+    tooltip: {
+        trigger: 'axis'
+    },
+    legend: {
+        data: ['用户数据（百分比）','行业标准值（百分比）']
+    },
+    toolbox: {
+                show : true,
+                feature : {
+                    dataView: {
+                show: true,
+                title: '数据视图',
+                optionToContent: function (opt) {
+                    var axisData = opt.xAxis[0].data;
+                    var series = opt.series;
+                    var tdHeads = '<td  style="padding:0 10px">名称</td>';
+                    series.forEach(function (item) {
+                        tdHeads += '<td style="padding: 0 10px">'+item.name+'</td>';
+                    });
+                    var table = '<table border="1" style="margin-left:20px;border-collapse:collapse;font-size:14px;text-align:center"><tbody><tr>'+tdHeads+'</tr>';
+                    var tdBodys = '';
+                    for (var i = 0, l = axisData.length; i < l; i++) {
+                        for (var j = 0; j < series.length; j++) {
+                            if(typeof(series[j].data[i]) == 'object'){
+                                tdBodys += '<td>'+series[j].data[i].value+'</td>';
+                            }else{
+                                tdBodys += '<td>'+ series[j].data[i]+'</td>';
+                            }
+                        }
+                        table += '<tr><td style="padding: 0 10px">'+axisData[i]+'</td>'+ tdBodys +'</tr>';
+                        tdBodys = '';
+                    }
+                    table += '</tbody></table>';
+                    return table;
+                }
+            },
+            magicType : {show: true, type: ['line', 'bar']},
+                    restore : {show: true},
+                    saveAsImage : {show: true}
+        }
+    },
+    xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: ['2018','2019','2020']//年份根据用户提供数据
+    },
+    yAxis: [
+                    {  
+                        type: 'value',  
+                        axisLabel: {  
+                            show: true,  
+                            interval: 'auto',  
+                            formatter: '{value} %'  
+                            },  
+                        show: true  
+                    }  
+                ],
+    series: [
+        {
+            name: '用户数据（百分比）',
+            type: 'line',
+            data: [{% widthratio first.资本回报率.0 1 100 %}, {% widthratio second.资本回报率.0 1 100 %}, {% widthratio third.资本回报率.0 1 100 %}],//用户数据
+            color:'#5B9BD5'
+        },  
+        {
+            name:'行业标准值（百分比）',
+            type:'line',
+            data:[6, 6, 6],//行业平均值
+            color:'#70AD47'
+        }
+    ],
+};
+        myChart.setOption(option);
+    </script>
+    <div id="main7" style="width: 500px;height:400px;float:left;"></div>
+    <script>
+        var myChart = echarts.init(document.getElementById('main7'));
+
+        var option = {
+    title: {
+        text: '销售收入现金含量'
+    },
+    tooltip: {
+        trigger: 'axis'
+    },
+    legend: {
+        data: ['用户数据（百分比）','行业标准值（百分比）']
+    },
+    toolbox: {
+                show : true,
+                feature : {
+                    dataView: {
+                show: true,
+                title: '数据视图',
+                optionToContent: function (opt) {
+                    var axisData = opt.xAxis[0].data;
+                    var series = opt.series;
+                    var tdHeads = '<td  style="padding:0 10px">名称</td>';
+                    series.forEach(function (item) {
+                        tdHeads += '<td style="padding: 0 10px">'+item.name+'</td>';
+                    });
+                    var table = '<table border="1" style="margin-left:20px;border-collapse:collapse;font-size:14px;text-align:center"><tbody><tr>'+tdHeads+'</tr>';
+                    var tdBodys = '';
+                    for (var i = 0, l = axisData.length; i < l; i++) {
+                        for (var j = 0; j < series.length; j++) {
+                            if(typeof(series[j].data[i]) == 'object'){
+                                tdBodys += '<td>'+series[j].data[i].value+'</td>';
+                            }else{
+                                tdBodys += '<td>'+ series[j].data[i]+'</td>';
+                            }
+                        }
+                        table += '<tr><td style="padding: 0 10px">'+axisData[i]+'</td>'+ tdBodys +'</tr>';
+                        tdBodys = '';
+                    }
+                    table += '</tbody></table>';
+                    return table;
+                }
+            },
+            magicType : {show: true, type: ['line', 'bar']},
+                    restore : {show: true},
+                    saveAsImage : {show: true}
+        }
+    },
+    xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: ['2018','2019','2020']//年份根据用户提供数据
+    },
+    yAxis:[
+                    {  
+                        type: 'value',  
+                        axisLabel: {  
+                            show: true,  
+                            interval: 'auto',  
+                            formatter: '{value} %'  
+                            },  
+                        show: true  
+                    }  
+                ],
+    series: [
+        {
+            name: '用户数据（百分比）',
+            type: 'line',
+            data: [{% widthratio first.销售收入现金含量.0 1 100 %}, {% widthratio second.销售收入现金含量.0 1 100 %}, {% widthratio third.销售收入现金含量.0 1 100 %}],//用户数据
+            color:'#5B9BD5'
+        },  
+        {
+            name:'行业标准值（百分比）',
+            type:'line',
+            data:[80, 80, 80],//行业平均值
+            color:'#70AD47'
+        }
+    ],
+};
+        myChart.setOption(option);
+    </script>
+    <div id="main8" style="width: 500px;height:400px;float:left;"></div>
+    <script>
+        var myChart = echarts.init(document.getElementById('main8'));
+
+        var option = {
+    title: {
+        text: '应收账款周转率'
+    },
+    tooltip: {
+        trigger: 'axis'
+    },
+    legend: {
+        data: ['用户数据（百分比）','行业标准值（百分比）']
+    },
+    toolbox: {
+                show : true,
+                feature : {
+                    dataView: {
+                show: true,
+                title: '数据视图',
+                optionToContent: function (opt) {
+                    var axisData = opt.xAxis[0].data;
+                    var series = opt.series;
+                    var tdHeads = '<td  style="padding:0 10px">名称</td>';
+                    series.forEach(function (item) {
+                        tdHeads += '<td style="padding: 0 10px">'+item.name+'</td>';
+                    });
+                    var table = '<table border="1" style="margin-left:20px;border-collapse:collapse;font-size:14px;text-align:center"><tbody><tr>'+tdHeads+'</tr>';
+                    var tdBodys = '';
+                    for (var i = 0, l = axisData.length; i < l; i++) {
+                        for (var j = 0; j < series.length; j++) {
+                            if(typeof(series[j].data[i]) == 'object'){
+                                tdBodys += '<td>'+series[j].data[i].value+'</td>';
+                            }else{
+                                tdBodys += '<td>'+ series[j].data[i]+'</td>';
+                            }
+                        }
+                        table += '<tr><td style="padding: 0 10px">'+axisData[i]+'</td>'+ tdBodys +'</tr>';
+                        tdBodys = '';
+                    }
+                    table += '</tbody></table>';
+                    return table;
+                }
+            },
+            magicType : {show: true, type: ['line', 'bar']},
+                    restore : {show: true},
+                    saveAsImage : {show: true}
+        }
+    },
+    xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: ['2018','2019','2020']//年份根据用户提供数据
+    },
+    yAxis: [
+                    {  
+                        type: 'value',  
+                        axisLabel: {  
+                            show: true,  
+                            interval: 'auto',  
+                            formatter: '{value} %'  
+                            },  
+                        show: true  
+                    }  
+                ],
+    series: [
+        {
+            name: '用户数据（百分比）',
+            type: 'line',
+            data: [{% widthratio first.应收账款周转率.0 1 100 %}, {% widthratio second.应收账款周转率.0 1 100 %}, {% widthratio third.应收账款周转率.0 1 100 %}],//用户数据
+            color:'#5B9BD5'
+        },  
+        {
+            name:'行业标准值（百分比）',
+            type:'line',
+            data:[300, 300, 300],//行业平均值
+            color:'#70AD47'
+        }
+    ],
+};
+        myChart.setOption(option);
+    </script>
+    <div id="main9" style="width: 500px;height:400px;float:left;"></div>
+    <script>
+        var myChart = echarts.init(document.getElementById('main9'));
+
+        var option = {
+    title: {
+        text: '存货周转率'
+    },
+    tooltip: {
+        trigger: 'axis'
+    },
+    legend: {
+        data: ['用户数据（百分比）','行业标准值（百分比）']
+    },
+    toolbox: {
+                show : true,
+                feature : {
+                    dataView: {
+                show: true,
+                title: '数据视图',
+                optionToContent: function (opt) {
+                    var axisData = opt.xAxis[0].data;
+                    var series = opt.series;
+                    var tdHeads = '<td  style="padding:0 10px">名称</td>';
+                    series.forEach(function (item) {
+                        tdHeads += '<td style="padding: 0 10px">'+item.name+'</td>';
+                    });
+                    var table = '<table border="1" style="margin-left:20px;border-collapse:collapse;font-size:14px;text-align:center"><tbody><tr>'+tdHeads+'</tr>';
+                    var tdBodys = '';
+                    for (var i = 0, l = axisData.length; i < l; i++) {
+                        for (var j = 0; j < series.length; j++) {
+                            if(typeof(series[j].data[i]) == 'object'){
+                                tdBodys += '<td>'+series[j].data[i].value+'</td>';
+                            }else{
+                                tdBodys += '<td>'+ series[j].data[i]+'</td>';
+                            }
+                        }
+                        table += '<tr><td style="padding: 0 10px">'+axisData[i]+'</td>'+ tdBodys +'</tr>';
+                        tdBodys = '';
+                    }
+                    table += '</tbody></table>';
+                    return table;
+                }
+            },
+            magicType : {show: true, type: ['line', 'bar']},
+                    restore : {show: true},
+                    saveAsImage : {show: true}
+        }
+    },
+    xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: ['2018','2019','2020']//年份根据用户提供数据
+    },
+    yAxis: [
+                    {  
+                        type: 'value',  
+                        axisLabel: {  
+                            show: true,  
+                            interval: 'auto',  
+                            formatter: '{value} %'  
+                            },  
+                        show: true  
+                    }  
+                ],
+    series: [
+        {
+            name: '用户数据（百分比）',
+            type: 'line',
+            data: [{% widthratio first.存货周转率.0 1 100 %}, {% widthratio second.存货周转率.0 1 100 %}, {% widthratio third.存货周转率.0 1 100 %}],//用户数据
+            color:'#5B9BD5'
+        },  
+        {
+            name:'行业标准值（百分比）',
+            type:'line',
+            data:[300, 300, 300],//行业平均值
+            color:'#70AD47'
+        }
+    ],
+};
+        myChart.setOption(option);
+    </script>
+
+<div id="main10" style="width: 500px;height:400px;float:left;"></div>
+    <script>
+        var myChart = echarts.init(document.getElementById('main10'));
+
+        var option = {
+    title: {
+        text: '固定资产净值率'
+    },
+    tooltip: {
+        trigger: 'axis'
+    },
+    legend: {
+        data: ['用户数据（百分比）','行业标准值（百分比）']
+    },
+    toolbox: {
+                show : true,
+                feature : {
+                    dataView: {
+                show: true,
+                title: '数据视图',
+                optionToContent: function (opt) {
+                    var axisData = opt.xAxis[0].data;
+                    var series = opt.series;
+                    var tdHeads = '<td  style="padding:0 10px">名称</td>';
+                    series.forEach(function (item) {
+                        tdHeads += '<td style="padding: 0 10px">'+item.name+'</td>';
+                    });
+                    var table = '<table border="1" style="margin-left:20px;border-collapse:collapse;font-size:14px;text-align:center"><tbody><tr>'+tdHeads+'</tr>';
+                    var tdBodys = '';
+                    for (var i = 0, l = axisData.length; i < l; i++) {
+                        for (var j = 0; j < series.length; j++) {
+                            if(typeof(series[j].data[i]) == 'object'){
+                                tdBodys += '<td>'+series[j].data[i].value+'</td>';
+                            }else{
+                                tdBodys += '<td>'+ series[j].data[i]+'</td>';
+                            }
+                        }
+                        table += '<tr><td style="padding: 0 10px">'+axisData[i]+'</td>'+ tdBodys +'</tr>';
+                        tdBodys = '';
+                    }
+                    table += '</tbody></table>';
+                    return table;
+                }
+            },
+            magicType : {show: true, type: ['line', 'bar']},
+                    restore : {show: true},
+                    saveAsImage : {show: true}
+        }
+    },
+    xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: ['2018','2019','2020']//年份根据用户提供数据
+    },
+    yAxis: [
+                    {
+                        type: 'value',
+                        axisLabel: {
+                            show: true,
+                            interval: 'auto',
+                            formatter: '{value} %'
+                            },
+                        show: true
+                    }
+                ],
+    series: [
+        {
+            name: '用户数据（百分比）',
+            type: 'line',
+            data: [{% widthratio first.固定资产净值率.0 1 100 %}, {% widthratio second.固定资产净值率.0 1 100 %}, {% widthratio third.固定资产净值率.0 1 100 %}],//用户数据
+            color:'#5B9BD5'
+        },
+        {
+            name:'行业标准值（百分比）',
+            type:'line',
+            data:[65, 65, 65],//行业平均值
+            color:'#70AD47'
+        }
+    ],
+};
+        myChart.setOption(option);
+    </script>
+<div id="main11" style="width: 500px;height:400px;float:left;"></div>
+
+    <script>
+        var myChart = echarts.init(document.getElementById('main11'));
+
+        var option = {
+    title: {
+        text: '主营业务收入增长率'
+    },
+    tooltip: {
+        trigger: 'axis'
+    },
+    legend: {
+        data: ['用户数据（百分比）','行业标准值（百分比）']
+    },
+    toolbox: {
+                show : true,
+                feature : {
+                    dataView: {
+                show: true,
+                title: '数据视图',
+                optionToContent: function (opt) {
+                    var axisData = opt.xAxis[0].data;
+                    var series = opt.series;
+                    var tdHeads = '<td  style="padding:0 10px">名称</td>';
+                    series.forEach(function (item) {
+                        tdHeads += '<td style="padding: 0 10px">'+item.name+'</td>';
+                    });
+                    var table = '<table border="1" style="margin-left:20px;border-collapse:collapse;font-size:14px;text-align:center"><tbody><tr>'+tdHeads+'</tr>';
+                    var tdBodys = '';
+                    for (var i = 0, l = axisData.length; i < l; i++) {
+                        for (var j = 0; j < series.length; j++) {
+                            if(typeof(series[j].data[i]) == 'object'){
+                                tdBodys += '<td>'+series[j].data[i].value+'</td>';
+                            }else{
+                                tdBodys += '<td>'+ series[j].data[i]+'</td>';
+                            }
+                        }
+                        table += '<tr><td style="padding: 0 10px">'+axisData[i]+'</td>'+ tdBodys +'</tr>';
+                        tdBodys = '';
+                    }
+                    table += '</tbody></table>';
+                    return table;
+                }
+            },
+            magicType : {show: true, type: ['line', 'bar']},
+                    restore : {show: true},
+                    saveAsImage : {show: true}
+        }
+    },
+    xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: ['2018','2019','2020']//年份根据用户提供数据
+    },
+    yAxis: [
+                    {  
+                        type: 'value',  
+                        axisLabel: {  
+                            show: true,  
+                            interval: 'auto',  
+                            formatter: '{value} %'  
+                            },  
+                        show: true  
+                    }  
+                ],
+    series: [
+        {
+            name: '用户数据（百分比）',
+            type: 'line',
+            data: [{% widthratio first.主营业务收入增长率.0 1 100 %}, {% widthratio second.主营业务收入增长率.0 1 100 %}, {% widthratio third.主营业务收入增长率.0 1 100 %}],//用户数据
+            color:'#5B9BD5'
+        },  
+        {
+            name:'行业标准值（百分比）',
+            type:'line',
+            data:[6, 6, 6],//行业平均值
+            color:'#70AD47'
+        }
+    ],
+};
+        myChart.setOption(option);
+    </script>
+    <div id="main12" style="width: 500px;height:400px;float:left;"></div>
+
+    <script>
+        var myChart = echarts.init(document.getElementById('main12'));
+
+        var option = {
+    title: {
+        text: '利润增长率'
+    },
+    tooltip: {
+        trigger: 'axis'
+    },
+    legend: {
+        data: ['用户数据（百分比）','行业标准值（百分比）']
+    },
+    toolbox: {
+                show : true,
+                feature : {
+                    dataView: {
+                show: true,
+                title: '数据视图',
+                optionToContent: function (opt) {
+                    var axisData = opt.xAxis[0].data;
+                    var series = opt.series;
+                    var tdHeads = '<td  style="padding:0 10px">名称</td>';
+                    series.forEach(function (item) {
+                        tdHeads += '<td style="padding: 0 10px">'+item.name+'</td>';
+                    });
+                    var table = '<table border="1" style="margin-left:20px;border-collapse:collapse;font-size:14px;text-align:center"><tbody><tr>'+tdHeads+'</tr>';
+                    var tdBodys = '';
+                    for (var i = 0, l = axisData.length; i < l; i++) {
+                        for (var j = 0; j < series.length; j++) {
+                            if(typeof(series[j].data[i]) == 'object'){
+                                tdBodys += '<td>'+series[j].data[i].value+'</td>';
+                            }else{
+                                tdBodys += '<td>'+ series[j].data[i]+'</td>';
+                            }
+                        }
+                        table += '<tr><td style="padding: 0 10px">'+axisData[i]+'</td>'+ tdBodys +'</tr>';
+                        tdBodys = '';
+                    }
+                    table += '</tbody></table>';
+                    return table;
+                }
+            },
+            magicType : {show: true, type: ['line', 'bar']},
+                    restore : {show: true},
+                    saveAsImage : {show: true}
+        }
+    },
+    xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: ['2018','2019','2020']//年份根据用户提供数据
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [
+        {
+            name: '用户数据（百分比）',
+            type: 'line',
+            data: [{% widthratio first.利润增长率.0 1 100 %}, {% widthratio second.利润增长率.0 1 100 %}, {% widthratio third.利润增长率.0 1 100 %}],//用户数据
+            color:'#5B9BD5'
+        },  
+        {
+            name:'行业标准值（百分比）',
+            type:'line',
+            data:[6, 6, 6],//行业平均值
+            color:'#70AD47'
+        }
+    ],
+};
+        myChart.setOption(option);
+    </script>
+</br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>
+</br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>
+</br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>
+</br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>
+
+<p>用户得分：{{ score }}<p></p>
+</br></br></br></br>
+<p>财务数据指标分析</p>
+    <div style="text-align: center;width: 1000px">
+        <table class="table table-bordered">
+            <tr>
+                <th>指标名称</th>
+                <th>指标值</th>
+                <th>分数</th>
+                <th>分析</th>
+            </tr>
+            {% for key,value in first.items %}
+                <tr>
+                    <td>{{ key }}</td>
+                    <td>{{ value.0 }}</td>
+                    <td>{{ value.1 }}</td>
+                    <td>{{ value.2 }}</td>
+                </tr>
+            {% endfor %}
+
+
+        </table>
+
+    </div>
+</br></br></br></br>
+<p>信用等级阐述</p>
+        <h2>{{ cal_eval.1}}</h2>
+        <h4>{{ cal_eval.2 }}</h4>
+
+        {{ cal_eval.3 }}
+
+
+</div>
+
+</body>
+</html>
+
+
+    <div align="center">
+        <footer>
+            <p>© 2021 Economic Fueler Project Team</p>
+        </footer>
+    </div>
+</body>
